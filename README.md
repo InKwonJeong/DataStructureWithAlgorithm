@@ -1,6 +1,6 @@
-# Data Structure With Algorithm
+## Data Structure With Algorithm
 
-## 자료구조와 함께 배우는 알고리즘 
+# 자료구조와 함께 배우는 알고리즘 
 1. 배열
 2. 검색
 3. 스택과 큐
