@@ -25,7 +25,6 @@
      - Arrays.copyOf(T[] a, int newArrayLength) (다차원 배열은 깊은 복사가 되지 않음)
      - System.arrayCopy (얕은 복사)
 2. 기수변환
- -
   ```java
     static void swp(char[] a, int idx1, int idx2){
            char t = a[idx1];
