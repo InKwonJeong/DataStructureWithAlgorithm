@@ -24,38 +24,38 @@ public interface Queue<T> {
 ```java
 import java.util.NoSuchElementException;
 
-public class LinkedQueue<T> implements Queue<T>{
+public class LinkedQueue<T> implements Queue<T> {
 
     private Node firstNode;
     private Node lastNode;
     private int size;
 
+    public LinkedQueue() {
+        firstNode = null;
+        lastNode = null;
+        size = 0;
+    }
+
     @Override
     public void enqueue(T newEntry) {
-        // 새로운 노드 객체 생성 다음 노드를 가르키는 포인터는 null
         Node newNode = new Node(newEntry, null);
-
-        // 첫번째 요소인지 확인.
         if(isEmpty())
             firstNode = newNode;
         else
-            // 첫번째 요소가 아니라면 새로운노드를 이전 요소의 노드 포인터에 연결
             lastNode.setNextNode(newNode);
-        // 새노드를 마지막 노드로 설정.
         lastNode = newNode;
         size++;
     }
 
     @Override
     public T dequeue() {
-        T front = firstNode.getData();
-
+        T front = getFront();
         assert firstNode != null;
         firstNode = firstNode.getNextNode();
 
-        // 마지막 요소를 꺼냈을 경우.
         if(firstNode == null)
             lastNode = null;
+
         size--;
         return front;
     }
@@ -135,8 +135,9 @@ public interface Deque<T> {
 
 4. Node를 이용한 Deque 구현.
 ```java
-public class LinkedDeque<T> implements Deque<T>{
+import java.util.NoSuchElementException;
 
+public class LinkedDeque<T> implements Deque<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -148,40 +149,36 @@ public class LinkedDeque<T> implements Deque<T>{
         size = 0;
     }
 
-
     @Override
     public void addToFront(T newEntry) {
-
-        Node newNode = new Node(newEntry, firstNode,null);
-
+        Node newNode = new Node(newEntry, firstNode, null);
         if(isEmpty())
             lastNode = newNode;
         else
             firstNode.setPreviousNode(newNode);
+
         firstNode = newNode;
         size++;
     }
 
     @Override
     public T removeFront() {
-        T front = firstNode.getData();
-
+        T front = getFront();
         assert firstNode != null;
         firstNode = firstNode.getNextNode();
 
-        // 마지막 요소를 꺼냈을 경우.
         if(firstNode == null)
             lastNode = null;
         else
             firstNode.setPreviousNode(null);
+
         size--;
         return front;
     }
 
     @Override
     public void addToBack(T newEntry) {
-        Node newNode = new Node(newEntry, null,lastNode);
-
+        Node newNode = new Node(newEntry, null, lastNode);
         if(isEmpty())
             firstNode = newNode;
         else
@@ -193,8 +190,7 @@ public class LinkedDeque<T> implements Deque<T>{
 
     @Override
     public T removeBack() {
-        T back = lastNode.getData();
-
+        T back = getBack();
         assert lastNode != null;
         lastNode = lastNode.getPreviousNode();
 
@@ -202,23 +198,30 @@ public class LinkedDeque<T> implements Deque<T>{
             firstNode = null;
         else
             lastNode.setNextNode(null);
+
         size--;
         return back;
     }
 
     @Override
     public T getFront() {
-        return firstNode.getData();
+        if(isEmpty())
+            throw new NoSuchElementException();
+        else
+            return firstNode.getData();
     }
 
     @Override
     public T getBack() {
-        return lastNode.getData();
+        if(isEmpty())
+            throw new NoSuchElementException();
+        else
+            return lastNode.getData();
     }
 
     @Override
     public boolean isEmpty() {
-        return firstNode == null && lastNode == null ;
+        return firstNode == null && lastNode == null;
     }
 
     @Override
@@ -264,11 +267,11 @@ public class LinkedDeque<T> implements Deque<T>{
             next = nextNode;
         }
 
-         Node getPreviousNode() {
+        Node getPreviousNode() {
             return previous;
         }
 
-         void setPreviousNode(Node previous) {
+        void setPreviousNode(Node previous) {
             this.previous = previous;
         }
     }
